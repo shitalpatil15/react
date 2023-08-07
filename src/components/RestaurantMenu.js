@@ -15,7 +15,10 @@ const RestaurantMenu = () => {
         const json = await data.json();
 
         const result = json?.data?.cards[0]?.card?.card?.info;
-        console.log("###", json.data.cards[0].card.card.info)
+        // console.log("###", json)
+
+
+       
         // const result = json?.data?.cards[0]?.card?.card?.info;
         setRestaurantData(result);
     }
@@ -41,7 +44,7 @@ const RestaurantMenu = () => {
                 </p>
 
                 <p className='flex flex-wrap justify-between my-2'>
-                    <p>• {restaurant?.isOpen ? "Open Now" : "Closed"}</p>
+                    <span>• {restaurant?.isOpen ? "Open Now" : "Closed"}</span>
                     <span>{restaurant?.veg ? "🟢 Veg" : "🔴 Non-veg"}</span>
                 </p>
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { RestaurantCard } from './RestaurantCard';
+import RestaurantCard, { withPromotedLabel } from './RestaurantCard';
 import { Shimmer } from './Shimmer';
 import { swiggy_api_URL, restaurantListData } from '../utils/constants'
 import { Link } from 'react-router-dom';
@@ -26,6 +26,7 @@ const Body = () => {
     setFilteredRestaurantList(restaurantListData);
   }
 
+  const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
   if (false === isOnline) return <h2>Looks like you are offline! Please check your internet connection.</h2>
   // conditional rendering
   return (restaurantList?.length === 0) ? <Shimmer /> :
@@ -53,7 +54,11 @@ const Body = () => {
         {/* cards */}
         <div className="res-container flex flex-wrap  justify-center">
           {filteredRestaurantList.map(resData => {
-            return <Link className="card w-[250px] m-3 p-2 rounded shadow-md hover:bg-red-100 bg-red-50" to={"/restaurant/" + resData.data.id} key={resData.data.id} ><RestaurantCard {...resData.data} /></Link>
+            return <Link className="card w-[250px] m-3 p-2 rounded shadow-md hover:bg-red-100 bg-red-50" to={"/restaurant/" + resData.data.id} key={resData.data.id} >
+
+              {resData.data.promoted ? <RestaurantCardPromoted {...resData.data}/> : <RestaurantCard {...resData.data} />}
+
+            </Link>
             // return <RestaurantCard {...resData.data} />
           })}
         </div>
