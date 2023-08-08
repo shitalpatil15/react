@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 
 import Header from './components/Header';
@@ -9,16 +9,27 @@ import Contact from "./components/Contact";
 import RestaurantMenu from "./components/RestaurantMenu";
 import Error from "./components/Error";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-
+import UserContext from "./utils/UserContext";
 const About = lazy(() => import("./components/About"));
 
 // AppLayout component to render: Header, Body and Footer Component
 const AppLayout = () => {
+
+  const [userName, setUserName] = useState("");
+
+  //Authentication code here
+  useEffect(() => {
+    setUserName("Sweetu")
+  }, [])
+
   return (
     <>
-      <Header />
-      <Outlet />
-      <Footer />
+      <UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
+        <Header />
+
+        <Outlet />
+        <Footer />
+      </UserContext.Provider>
     </>
   );
 };

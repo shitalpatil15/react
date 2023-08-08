@@ -1,15 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import RestaurantCard, { withPromotedLabel } from './RestaurantCard';
 import { Shimmer } from './Shimmer';
 import { swiggy_api_URL, restaurantListData } from '../utils/constants'
 import { Link } from 'react-router-dom';
 import useOnlineStatus from '../hooks/useOnlineStatus';
+import UserContext from '../utils/UserContext';
 const Body = () => {
 
   const [restaurantList, setRestaurantList] = useState([]);
   const [filteredRestaurantList, setFilteredRestaurantList] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const isOnline = useOnlineStatus();
+  const { loggedInUser, setUserName } = useContext(UserContext)
+
   useEffect(() => {
     console.log("useEffect called after body render")
     fetchData()
@@ -48,6 +51,9 @@ const Body = () => {
             const filterData = restaurantList.filter(e => e.data.avgRating > 4);
             setFilteredRestaurantList(filterData)
           }}>Top Rated Restaurants</button>
+
+          Username: <input className="hover:border-blue-500 hover:border-solid hover:bg-white hover:text-blue-500 items-center justify-center rounded-md border-2 border-slate-300 text-sm text-slate-900 font-medium" type="text" value={loggedInUser} onChange={(e) => { setUserName(e.target.value) }} />
+
         </div>
 
 
@@ -56,7 +62,7 @@ const Body = () => {
           {filteredRestaurantList.map(resData => {
             return <Link className="card w-[250px] m-3 p-2 rounded shadow-md hover:bg-red-100 bg-red-50" to={"/restaurant/" + resData.data.id} key={resData.data.id} >
 
-              {resData.data.promoted ? <RestaurantCardPromoted {...resData.data}/> : <RestaurantCard {...resData.data} />}
+              {resData.data.promoted ? <RestaurantCardPromoted {...resData.data} /> : <RestaurantCard {...resData.data} />}
 
             </Link>
             // return <RestaurantCard {...resData.data} />
