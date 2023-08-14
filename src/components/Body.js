@@ -14,7 +14,7 @@ const Body = () => {
   const { loggedInUser, setUserName } = useContext(UserContext)
 
   useEffect(() => {
-    console.log("useEffect called after body render")
+    //useEffect called after body render
     fetchData()
   }, []);
 
@@ -38,8 +38,9 @@ const Body = () => {
         <div className="search-bar flex flex-wrap my-3">
           {/* search box */}
           <div className="search rounded-md bg-blue-200 ml-3 shadow-lg">
-            <input className="hover:border-blue-500 hover:border-solid hover:bg-white hover:text-blue-500 items-center justify-center rounded-md border-2 border-slate-300 text-sm text-slate-900 font-medium" type="text" value={searchValue} onChange={(e) => { setSearchValue(e.target.value) }} />
-            <button className="mx-3 px-3" onClick={() => {
+            <input className="hover:border-blue-500 hover:border-solid hover:bg-white hover:text-blue-500 items-center justify-center rounded-md border-2 border-slate-300 text-sm text-slate-900 font-medium" type="text" value={searchValue} onChange={(e) => { setSearchValue(e.target.value) }} data-testid="search-input"/>
+            <button             
+              className="mx-3 px-3" onClick={() => {
               const filterData = restaurantList.filter(e => e.data.name.toLowerCase().includes(searchValue.toLowerCase()));
               setFilteredRestaurantList(filterData);
 
@@ -60,7 +61,7 @@ const Body = () => {
         {/* cards */}
         <div className="res-container flex flex-wrap  justify-center">
           {filteredRestaurantList.map(resData => {
-            return <Link className="card w-[250px] m-3 p-2 rounded shadow-md hover:bg-red-100 bg-red-50" to={"/restaurant/" + resData.data.id} key={resData.data.id} >
+            return <Link className="card w-[250px] m-3 p-2 rounded shadow-md hover:bg-red-100 bg-red-50" to={"/restaurant/" + resData.data.id} key={resData.data.id} data-testid="Rest-Card">
 
               {resData.data.promoted ? <RestaurantCardPromoted {...resData.data} /> : <RestaurantCard {...resData.data} />}
 

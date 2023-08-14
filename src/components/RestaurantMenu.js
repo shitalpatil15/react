@@ -17,20 +17,15 @@ const RestaurantMenu = () => {
     const fetchData = async () => {
         const data = await fetch(menuUrl + restId.id);
         const json = await data.json();
-
         const result = json?.data?.cards[0]?.card?.card?.info;
-        // console.log("###", json)
-
 
         const accordionMenuData = json.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
-        accordionMenuData.filter((item) => {
-            console.log( item.card.card?.title, item.card.card?.["@type"] )
+        accordionMenuData.filter((item) => {           
             if(item.card.card?.["@type"] == "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"){
                 return;
             }
             
         })
-        console.log("###", accordionMenuData)
        
         // const result = json?.data?.cards[0]?.card?.card?.info;
         setRestaurantData(result);
